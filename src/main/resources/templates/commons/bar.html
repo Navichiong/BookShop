@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <!-- 导航部分 -->
+    <div class="container" style="margin-top: 5px;" th:fragment="navigation">
+        <nav class="navbar navbar-default well-sm" style="padding-left: 0px;" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target="#example-navbar-collapse">
+                        <span class="sr-only">切换导航</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">优客书城</a>
+                </div>
+                <div class="collapse navbar-collapse" id="example-navbar-collapse">
+                    <ul class="nav navbar-nav pull-left">
+                        <li th:if="${session.user!=null}">
+                            <a href="javascript:void(0)">用户：<span th:text="${session.user.username}"></span></a>
+                        </li>
+                        <li class="active">
+                            <a th:href="@{/home/index}">首页</a>
+                        </li>
+                        <li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                图书类型
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a th:href="@{/book/toBookListPage(categoryCode=1)}">精选图书</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a th:href="@{/book/toBookListPage(categoryCode=2)}">推荐图书</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a th:href="@{/book/toBookListPage(categoryCode=3)}">特价图书</a>
+                                </li>
+                                <li class="divider"></li>
+                            </ul>
+                        </li>
+                        </li>
+                        <li th:if="${session.user == null}">
+                            <a href="#" data-toggle="modal" data-target="#loginModal">登录</a>
+                        </li>
+                        <li th:if="${session.user != null}">
+                            <a th:href="@{/user/logout}">安全退出</a>
+                        </li>
+                        <li th:if="${session.user == null}">
+                            <a href="#" data-toggle="modal" data-target="#register" id="showRegModal">注册</a>
+                        </li>
+
+                        <li th:if="${session.user != null}">
+                            <a th:href="@{/order/list}">我的订单</a>
+                        </li>
+                        <li th:if="${session.user != null}">
+                            <a th:href="@{/cart/list}"><span class="glyphicon glyphicon-shopping-cart"></span>我的购物车</a>
+                        </li>
+                    </ul>
+                    <div class="input-group col-md-3 pull-right" style="positon:relative;padding: 7px;">
+                        <input type="text" class="form-control" placeholder="请输入图书名"/>
+                        <span class="input-group-btn">
+					            <button class="btn btn-info btn-search">
+					            	<span class="glyphicon glyphicon-search"></span>
+					            </button>
+							</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- 轮播图 -->
+    <div id="gcarouse" class="container" th:fragment="carousel">
+        <!--轮播-->
+        <div id="myCarousel" class="carousel slide">
+            <!-- 轮播（Carousel）指标 -->
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+            </ol>
+            <!-- 轮播（Carousel）项目 -->
+            <div class="carousel-inner">
+                <div class="item active">
+                    <a href="details.html"><img src="images/advert1.jpg" th:src="@{/images/advert1.jpg}"
+                                                class="pull-left" alt="First slide"></a>
+
+                </div>
+                <div class="item">
+                    <a href="details.html"><img src="images/advert2.jpg" th:src="@{/images/advert2.jpg}"
+                                                class="pull-left" alt="First slide"></a>
+
+                </div>
+                <div class="item">
+                    <a href="details.html"><img src="images/advert3.jpg" th:src="@{/images/advert3.jpg}"
+                                                class="pull-left" alt="First slide"></a>
+
+                </div>
+            </div>
+
+            <!-- 轮播（Carousel）导航 -->
+            <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+            <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+        </div>
+    </div>
+
+    <!-- 底部地址 -->
+    <div class="container" th:fragment="bottomAddress">
+        <div class="row">
+            <div class="col-md-offset-2 col-md-8">
+                <div class="row">
+                    <div class="col-md-offset-2 col-md-2">
+                        <img src="images/logo.png" th:src="@{/images/logo.png}">
+                    </div>
+                    <div class="col-md-6" style="margin-top: 10px;">
+                        <div class="row">
+                            <div class="col-md-offset-2 col-md-10">
+                                <a href="http://www.gem-inno.com/">苏州高博应诺信息科技有限公司&copy;所有</a>
+                            </div>
+                        </div>
+                        <div class="gap"></div>
+                        <div class="row">
+                            <div class="col-md-offset-2 col-md-10">
+                                <span class="text-info">高博教育&reg; |&nbsp;</span>
+                                <span class="text-info"><a href="http://www.xmgc360.com">项目工厂</a> |&nbsp;</span>
+                                <span class="text-info">2012－2020 </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

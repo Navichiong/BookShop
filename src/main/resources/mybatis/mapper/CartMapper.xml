@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 名称空间： 接口的全类名，相当于告诉MyBatis这个配置文件是实现哪个接口的；-->
+<mapper namespace="com.nvc.bookshop.mapper.CartMapper">
+
+    <sql id="leftJoinBook">
+        SELECT *
+        FROM bs_cart bsc
+                 LEFT JOIN bs_book bsb ON bsc.book_id = bsb.id
+    </sql>
+
+    <select id="findCartByUserIdAndBookId" resultType="com.nvc.bookshop.pojo.Cart">
+
+        select *
+        from bs_cart
+        where book_id = #{book_id,jdbcType=INTEGER}
+          and user_id = #{user_id,jdbcType=INTEGER}
+
+    </select>
+
+    <insert id="addGoodToCart">
+        insert into bs_cart (book_id, user_id, count)
+        values (#{book_id,jdbcType=INTEGER}, #{user_id,jdbcType=INTEGER}, #{count,jdbcType=INTEGER})
+    </insert>
+
+    <update id="updateCartByUserIdAndBookId">
+        update bs_cart
+        set count = #{count,jdbcType=INTEGER}
+        where book_id = #{book_id,jdbcType=INTEGER}
+          and user_id = #{user_id,jdbcType=INTEGER}
+    </update>
+
+    <resultMap id="cartMap1" type="com.nvc.bookshop.pojo.Cart">
+        <id property="id" column="id"/>
+        <result property="book_id" column="book_id"/>
+        <result property="user_id" column="user_id"/>
+        <result property="count" column="count"/>
+        <association property="book" javaType="com.nvc.bookshop.pojo.Book"
+                     select="com.nvc.bookshop.mapper.BookMapper.findBookById"
+                     column="book_id">
+        </association>
+    </resultMap>
+
+    <select id="findCartListByUserId" resultMap="cartMap1">
+        <include refid="leftJoinBook"/>
+        WHERE bsc.user_id = #{userId,jdbcType=INTEGER};
+    </select>
+
+    <update id="updateCartById">
+        update bs_cart
+        set count = #{count}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCartById">
+        delete from bs_cart where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <select id="findCardListByIdsString" resultMap="cartMap1">
+        <include refid="leftJoinBook"/>
+        where bsc.id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id,jdbcType=INTEGER}
+        </foreach>
+    </select>
+
+
+</mapper>

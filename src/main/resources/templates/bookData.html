@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>优客书城数据页</title>
+</head>
+
+<body>
+    <!-- 精选图书数据 -->
+    <div class="row" th:if="${category == 1}">
+        <div class="container">
+            <div class="col-sm-6 col-md-3" th:each="book:${bookList.list}">
+                <div class="thumbnail">
+                    <a th:href="@{/book/toDetailsPage(id=${book.id})}"><img th:src="@{'/public/'+${book.img_url}}" alt="通用的占位符缩略图"></a>
+                    <div class="caption">
+                        <h3 th:classappend="h3-height" th:text="${book.name}">北纬78°</h3>
+                        <p th:classappend="p-hegiht">价格:<span th:text="${book.new_price}"></span> 作者:<span
+                                th:text="${book.author}"></span></p>
+                        <p>
+                            <a th:href="@{/book/toDetailsPage(id=${book.id})}">更多信息</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--分页-->
+        <div class="container">
+            <ul class="pager">
+                <li th:class="${bookList.hasPreviousPage == false} ? 'disabled':''">
+                    <a href="javascript:void(0)" th:onclick="|loadBookData(${bookList.prePage},1)|">&larr;上一页</a>
+                </li>
+                <li th:class="${bookList.hasNextPage == false} ? 'disabled':''">
+                    <a th:onclick="|loadBookData(${bookList.nextPage},1)|" href="javascript:void(0)">下一页 &rarr;</a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+    <!-- 推荐图书数据 -->
+    <div class="row" th:if="${category == 2}">
+        <div class="container">
+            <div class="col-sm-6 col-md-3" th:each="book:${bookList.list}">
+                <div class="thumbnail">
+                    <a th:href="@{/book/toDetailsPage(id=${book.id})}"><img th:src="@{'/public/'+${book.img_url}}" alt="通用的占位符缩略图"></a>
+                    <div class="caption">
+                        <h3 th:classappend="h3-height" th:text="${book.name}"></h3>
+                        <p th:classappend="p-hegiht">价格:<span th:text="${book.new_price}"></span> 作者:<span
+                                th:text="${book.author}"></span></p>
+                        <p>
+                            <a th:href="@{/book/toDetailsPage(id=${book.id})}">更多信息</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 分页 -->
+        <div class="container">
+            <ul class="pager">
+                <li th:class="${bookList.hasPreviousPage == false} ? 'disabled':''">
+                    <a href="javascript:void(0)" th:onclick="|loadBookData(${bookList.prePage},2)|">&larr;上一页</a>
+                </li>
+                <li th:class="${bookList.hasNextPage == false} ? 'disabled':''">
+                    <a th:onclick="|loadBookData(${bookList.nextPage},2)|" href="javascript:void(0)">下一页 &rarr;</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 特价图书数据 -->
+    <div class="row" th:if="${category == 3}">
+        <div class="container">
+            <div class="col-sm-6 col-md-3" th:each="book:${bookList.list}">
+                <div class="thumbnail">
+                    <a th:href="@{/book/toDetailsPage(id=${book.id})}"><img th:src="@{'/public/'+${book.img_url}}" alt="通用的占位符缩略图"></a>
+                    <div class="caption">
+                        <h3 th:classappend="h3-height" th:text="${book.name}"></h3>
+                        <p th:classappend="p-hegiht">价格:<span th:text="${book.new_price}"></span> 作者:<span
+                                th:text="${book.author}"></span></p>
+                        <p>
+                            <a th:href="@{/book/toDetailsPage(id=${book.id})}">更多信息</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--分页-->
+        <div class="container">
+            <ul class="pager">
+                <li th:class="${bookList.hasPreviousPage == false} ? 'disabled':''">
+                    <a href="javascript:void(0)" th:onclick="|loadBookData(${bookList.prePage},3)|">&larr;上一页</a>
+                </li>
+                <li th:class="${bookList.hasNextPage == false} ? 'disabled':''">
+                    <a th:onclick="|loadBookData(${bookList.nextPage},3)|" href="javascript:void(0)">下一页 &rarr;</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

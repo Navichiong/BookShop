@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 名称空间： 接口的全类名，相当于告诉MyBatis这个配置文件是实现哪个接口的；-->
+<mapper namespace="com.nvc.bookshop.mapper.OrderItemMapper">
+
+    <insert id="addOrderItemMapper">
+
+        INSERT INTO bs_order_item (order_id, book_id, count)
+        VALUES (#{order_id}, #{book_id}, #{count})
+
+    </insert>
+
+    <select id="findOrderItemMapperListByOrderId" resultType="com.nvc.bookshop.pojo.OrderItem">
+        select * from bs_order_item where order_id = #{orderId,jdbcType=INTEGER}
+    </select>
+
+</mapper>

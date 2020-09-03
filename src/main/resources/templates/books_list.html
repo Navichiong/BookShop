@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>图书列表</title>
+    <link type="text/css" rel="stylesheet" href="dist/css/bootstrap.min.css" th:href="@{/dist/css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" href="css/index.css" th:href="@{/css/index.css}"/>
+    <link rel="stylesheet" type="text/css" href="css/animate.css" th:href="@{/css/animate.css}"/>
+
+</head>
+<body>
+    <!--导航部分  begin-->
+    <div th:replace="/commons/bar::navigation"></div>
+    <!--导航部分 end-->
+
+    <!--最顶端轮播图片 begin-->
+    <div th:replace="/commons/bar::carousel"></div>
+    <!--最顶端轮播图片 end-->
+
+    <div class="container">
+        <ol class="breadcrumb">
+            <li><a href="#">图书列表</a></li>
+            <li><a href="#">精选图书</a></li>
+        </ol>
+    </div>
+
+    <!-- 展示数据开始 -->
+    <div id="bookList"></div>
+    <!-- 展示数据结束 -->
+
+    <!--地址-->
+    <div th:replace="/commons/bar::bottomAddress"></div>
+    <!--end-->
+
+    <!-- 登录模态框 -->
+    <div th:replace="/commons/modal::loginModal"></div>
+
+    <!-- 注册模态框 -->
+    <div th:replace="/commons/modal::registerModal"></div>
+
+    <script src="dist/js/jquery.min.js" th:src="@{/dist/js/jquery.min.js}"></script>
+    <script src="js/carousel.js" th:src="@{/js/carousel.js}" type="text/javascript" charset="utf-8"></script>
+    <script src="dist/js/bootstrap.min.js" th:src="@{/dist/js/bootstrap.min.js}"></script>
+    <script src="js/wow.js" th:src="@{/js/wow.js}"></script>
+    <script th:inline="javascript">
+        var contextPath = [[${#request.getContextPath()}]];
+        var categoryCode = [[${categoryCode}]];
+        var pSize = [[${pageSize}]]
+    </script>
+    <script type="text/javascript">
+        if (!(/msie [6|7|8|9]/i.test(navigator.userAgent))) {
+            new WOW().init();
+        }
+
+        $(function () {
+            $('#bookList').load(contextPath + '/book/getBookListData', buildParam(1, categoryCode))
+        });
+
+        // 包装查询参数
+        function buildParam(pageNum, categoryCode, pageSize) {
+            var params = {};
+            params.pageNum = typeof pageNum == "undefined" ? 1 : pageNum;
+            params.categoryCode = typeof categoryCode == "undefined" ? 1 : categoryCode;
+            params.pageSize = pageSize == '' ? pSize : pageSize;
+            return params;
+        }
+
+        function loadData(pageNum, categoryCode, pageSize) {
+            var params = buildParam(pageNum, categoryCode, pageSize);
+            if (params.pageNum === 0) {
+                return false;
+            }
+            $('#bookList').load(contextPath + '/book/getBookListData', params)
+        }
+
+        function goPage(category, pageSize) {
+            var page = $('#inputPage').val();
+            if (!/^\d+$/.test(page)) {
+                page = 1;
+            }
+            console.log('======>' + page);
+            $('#bookList').load(contextPath + '/book/getBookListData', buildParam(page, category, pageSize))
+        }
+
+        function loadDataBySize(obj) {
+            $('#bookList').load(contextPath + '/book/getBookListData', buildParam(1, categoryCode, obj.value))
+        }
+    </script>
+    <script th:src="@{/js/user.js}"></script>
+</body>
+</html>
